@@ -125,7 +125,7 @@
         </div>
         <div id="message">
             <div class="msg {{info.status.value}}">
-                {{info.message}}
+                {% autoescape false %}{{info.message}}{% endautoescape %}
             </div>
             <button class="btn {{info.status.value}}" onclick="location.href='/reset'">New Game</button>
         </div>

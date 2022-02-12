@@ -21,6 +21,10 @@ clean-test:
 	rm -f .coverage
 	rm -rf htmlcov/
 
+.PHONY: environ
+environ:
+	pip install -r requirements.txt
+
 .PHONY: words
 words:
 	cd scripts && python ./create_words.py

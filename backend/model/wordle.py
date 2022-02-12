@@ -22,7 +22,7 @@ class Wordle():
     def _read_words(self: Wordle) -> None:
         words = list()
         freqs = list()
-        with open('script/words.csv', 'rt') as rf:
+        with open('scripts/words.csv', 'rt') as rf:
             line = rf.readline()
             while line:
                 word, freq = line.strip().split(',', 2)
@@ -35,18 +35,18 @@ class Wordle():
         self.words = words
         self.weights = np.array(freqs)
         self.weights /= self.weights.sum()
-        self.logger.info(f'load {self.num_words} words')
+        self.logger.debug(f'load {self.num_words} words')
         return
 
     def _choose_answer(self: Wordle) -> None:
         assert(self.answer is None)
         idx = np.random.choice(self.num_words, 1, p=self.weights)[0]
         self.answer = self.words[idx]
-        self.logger.info(f'answer = {self.answer}')
+        self.logger.debug(f'answer = {self.answer}')
         return
 
     def append_letter(self: Wordle, key: str) -> None:
-        self.logger.info(f'append_letter: key = {key}')
+        self.logger.debug(f'append_letter: key = {key}')
         self.info.message = ''
         if self.info.status != WordleStatus.OPEN:
             return
@@ -58,13 +58,13 @@ class Wordle():
         return
 
     def confirm_word(self: Wordle) -> None:
-        self.logger.info('confirm_word')
+        self.logger.debug('confirm_word')
         self.info.message = ''
         if self.info.status != WordleStatus.WORD:
-            self.logger.info(f'status invalid {self.info.status}')
+            self.logger.debug(f'status invalid {self.info.status}')
             return
         if self.offset == 0 or self.offset % 5 != 0:
-            self.logger.info(f'offset invalid {self.offset}')
+            self.logger.debug(f'offset invalid {self.offset}')
             return
         assert(self.offset > 0 and self.offset % 5 == 0)
         count_corr = 0
@@ -72,7 +72,7 @@ class Wordle():
         for i in range(5):
             off_letter = self.offset - 5 + i
             word += self.info.letters[off_letter].letter
-        self.logger.info(f'word = {word}')
+        self.logger.debug(f'word = {word}')
         if word not in self.words:
             self.info.message = 'Not in word list'
             return
@@ -109,18 +109,18 @@ class Wordle():
             self.info.status = WordleStatus.WRNG
             self.info.message = (
                 'You lose. '
-                f'answer = "{self.answer.upper()}"'
+                f'answer: <span class="answer">{self.answer.upper()}</span>'
             )
         return
 
     def delete_letter(self: Wordle) -> None:
-        self.logger.info('delete_letter')
+        self.logger.debug('delete_letter')
         self.info.message = ''
         if self.info.status in [WordleStatus.RGHT, WordleStatus.WRNG]:
-            self.logger.info('already finish game')
+            self.logger.debug('already finish game')
             return
         if self.offset % 5 == 0 and self.info.status == WordleStatus.OPEN:
-            self.logger.info(f'no remaining letter: {self.offset}')
+            self.logger.debug(f'no remaining letter: {self.offset}')
             return
         self.offset -= 1
         self.info.letters[self.offset].letter = ' '
@@ -129,10 +129,10 @@ class Wordle():
         return
 
     def reset_game(self: Wordle) -> None:
-        self.logger.info('reset_game')
+        self.logger.debug('reset_game')
         self.info.message = ''
         if self.info.status not in [WordleStatus.RGHT, WordleStatus.WRNG]:
-            self.logger.warning('not finished game')
+            self.logger.debug('not finished game')
             return
         self.answer = None
         self.offset = 0

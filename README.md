@@ -11,6 +11,8 @@
 
 ### 必要なこと
 
+* Python の環境（もしくは仮想環境）に requirements.txt 記載の Python パッケージを入れる
+    * `make environ` もしくは `pip install -r requirements.txt`
 * [Kaggle](https://www.kaggle.com/) のアカウントが無ければ作る
 * Kaggle にログインし、[English Word Frequency](https://www.kaggle.com/rtatman/english-word-frequency) のデータをダウンロードする
 * ダウンロードしたファイル (archive.zip) を解凍し、生成された `unigram_freq.csv` を `scripts` ディレクトリの下に置く
