@@ -5,14 +5,26 @@
 
 本家 : The New York Times - "[Wordle](https://www.nytimes.com/games/wordle/index.html)"
 
+## アプリのバイナリを作るための準備
+
+* （無ければ）pyenv 等をインストールする
+* 【注意】Python を Framework としてインストールする
+    * これをやらないと PyInstaller が動かない
+    * `env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.10.2`
+* Python 仮想環境を作り、Python パッケージをインストールする
+    * `pip install -r requirements.txt`
+* （無ければ）node, yarn をインストールする
+* Node JS パッケージをインストールする
+    * `yarn`
+
 ## 英単語リストの作成
 
 まずは Wordle が使う5文字の英単語のリストを作らなければならない。
 
-### 必要なこと
+### 準備
 
-* Python の環境（もしくは仮想環境）に requirements.txt 記載の Python パッケージを入れる
-    * `make environ` もしくは `pip install -r requirements.txt`
+英単語出現頻度データをダウンロードする。
+
 * [Kaggle](https://www.kaggle.com/) のアカウントが無ければ作る
 * Kaggle にログインし、[English Word Frequency](https://www.kaggle.com/rtatman/english-word-frequency) のデータをダウンロードする
 * ダウンロードしたファイル (archive.zip) を解凍し、生成された `unigram_freq.csv` を `scripts` ディレクトリの下に置く
@@ -41,14 +53,54 @@ Wiktionary, そして Kaggle の上記データをそのまま利用している
 名詞の複数形、動詞の過去形・現在進行形が入っているのは、仕様です。
 （本家と同じ）
 
-## 動かし方１
+## 動かし方
 
-backend Python サーバを動かし、そこに Web ブラウザでアクセスする。
+### 動かし方１
 
-* `pip install -r requirements.txt`
-* `make http` もしくは `python -m backend.app`
+Python backend サーバを動かし、そこに Web ブラウザでアクセスする。
+
+* `make http` もしくは `python -m backend.backend`
 * Web ブラウザで [localhost:8000](http://localhost:8000) にアクセスする
+
+### 動かし方２
+
+Python backend サーバを動かし、そこに Electron でアクセスする。
+
+* `make http` もしくは `python -m backend.backend`
+* `make browse` もしくは `./node_modules/.bin/electron browse.js`
+
+### 動かし方３
+
+Electron を起動すると共に Python backend サーバを動かし、
+Electron を閉じると共に Python backend サーバも落とす。
+
+* `make app` もしくは `yarn start`
+
+### 動かし方４
+
+Python backend サーバをバイナリにし、
+Electron を起動すると共に backend バイナリを動かし、
+Electron を閉じると共に backend バイナリも落とす。
+
+* `make backend`
+* その後に `yarn start`
+
+（backend バイナリが動き出すまでに時間がかかる）
+
+### 動かし方５
+
+backend バイナリと共にすべてをひとつのバイナリ（インストーラ）にして、
+一般的なアプリのようにインストール・利用する。
+
+* `yarn build`
+* build ディレクトリの下に生成される Wordle-X.X.X.dmg をインストール・利用する
+
+（backend バイナリの入れ方に問題があり、まだ動かない）
 
 ## ゲームのルール、やり方
 
 本家と同じ。
+
+## メモ
+
+* FastAPI は PyInstaller (make backend) に対応していないので、意図的に Flask を使っている

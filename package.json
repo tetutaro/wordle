@@ -1,0 +1,51 @@
+{
+    "name": "Wordle",
+    "version": "0.1.0",
+    "description": "Wordle.",
+    "repository": "git@github.com:tetutaro/wordle.git",
+    "author": "tetutaro",
+    "license": "MIT",
+    "main": "frontend.js",
+    "scripts": {
+        "start": "electron .",
+        "pack": "electron-builder --dir",
+        "build": "electron-builder"
+    },
+    "build": {
+        "directories": {
+            "output": "build"
+        },
+        "files": [
+            "package.json",
+            "frontend.js",
+            "icons/*",
+            "backend_dist/*"
+        ],
+        "mac": {
+            "icon": "icons/wordle.icns",
+            "target": [
+                "dmg"
+            ]
+        },
+        "win": {
+            "icon": "icons/wordle.ico",
+            "target": [
+                "nsis"
+            ]
+        },
+        "linux": {
+            "icon": "icons/wordle.icns",
+            "target": [
+                "snap"
+            ]
+        }
+    },
+    "dependencies": {
+        "child_process": "^1.0.2",
+        "ps-tree": "^1.2.0"
+    },
+    "devDependencies": {
+        "electron": "^17.0.0",
+        "electron-builder": "^22.14.13"
+    }
+}

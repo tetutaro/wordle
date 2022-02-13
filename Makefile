@@ -5,6 +5,8 @@ clean: clean-build clean-pyc clean-test
 clean-build:
 	rm -rf build/
 	rm -rf dist/
+	rm -rf backend_build/
+	rm -rf backend_dist/
 	rm -rf .eggs/
 	find . -name '*.egg-info' -exec rm -fr {} +
 	find . -name '*.egg' -exec rm -fr {} +
@@ -24,6 +26,7 @@ clean-test:
 .PHONY: environ
 environ:
 	pip install -r requirements.txt
+	yarn
 
 .PHONY: words
 words:
@@ -31,4 +34,18 @@ words:
 
 .PHONY: http
 http:
-	python -m backend.app
+	python -m backend.backend
+
+.PHONY: browse
+browse:
+	./node_modules/.bin/electron browse.js
+
+.PHONY: backend
+backend:
+	pyinstaller --distpath ./backend_dist --workpath ./backend_build --add-data backend/templates:templates --add-data backend/static:static --add-data scripts:scripts backend/backend.py
+	rm -f backend.spec
+	rm -rf backend_build
+
+.PHONY: app
+app:
+	yarn start

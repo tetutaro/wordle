@@ -1,12 +1,42 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 from __future__ import annotations
+from typing import List, Dict
 from logging import Logger
+from enum import Enum
 import re
 import numpy as np
-from backend.model.info import WordleStatus, LetterStatus, WordleInfo
+from pydantic import BaseModel
 
 FREQ_THRESHOLD = 0.0001
+
+
+class WordleStatus(Enum):
+    OPEN = 'open'
+    WORD = 'waiting-word'
+    RGHT = 'right'
+    WRNG = 'wrong'
+
+
+class LetterStatus(Enum):
+    BLNK = 'blank'
+    CORR = 'correct'
+    SPOT = 'spot'
+    MISS = 'miss'
+
+
+class WordleLetter(BaseModel):
+    letter: str = ' '
+    status: LetterStatus = LetterStatus.BLNK
+
+
+class WordleInfo(BaseModel):
+    message: str = ''
+    status: WordleStatus = WordleStatus.OPEN
+    letters: List[WordleLetter] = [WordleLetter() for _ in range(30)]
+    keyboards: Dict[str, LetterStatus] = {
+        w: LetterStatus.BLNK for w in list('qwertyuiopasdfghjklzxcvbnm')
+    }
 
 
 class Wordle():
@@ -108,8 +138,8 @@ class Wordle():
         else:
             self.info.status = WordleStatus.WRNG
             self.info.message = (
-                'You lose. '
-                f'answer: <span class="answer">{self.answer.upper()}</span>'
+                'You lose. answer='
+                f'<span class="answer">{self.answer.upper()}</span>'
             )
         return
 
