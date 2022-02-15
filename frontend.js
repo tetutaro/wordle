@@ -1,4 +1,5 @@
 "use strint";
+const os = require("os");
 const {app, BrowserWindow} = require("electron");
 const path = require("path");
 const reqp = require("request-promise-native");
@@ -40,13 +41,25 @@ const killPythonSubprocesses = (main_pid) => {
     let cleanupCompleted = false;
     require("ps-tree")(main_pid, (err, children) => {
         children.forEach((x) => {
-            if (useBinary) {
-                if (x.COMM == BACKEND_EXE_FILE) {
-                    process.kill(x.PID);
+            if (os.platform() == "darwin") {
+                if (useBinary) {
+                    if (x.COMM == BACKEND_EXE_FILE) {
+                        process.kill(x.PID);
+                    }
+                } else {
+                    if (x.COMM.endsWith("bin/python")) {
+                        process.kill(x.PID);
+                    }
                 }
-            } else {
-                if (x.COMM.endsWith("bin/python")) {
-                    process.kill(x.PID);
+            } else if (os.platform() == "linux") {
+                if (useBinary) {
+                    if (x.COMMAND == "wordle_backend") {
+                        process.kill(x.PID);
+                    }
+                } else {
+                    if (x.COMMAND == "python") {
+                        process.kill(x.PID);
+                    }
                 }
             }
         });
@@ -65,7 +78,7 @@ let sleep_count = 0;
 
 const createMainWindow = () => {
     mainWindow = new BrowserWindow({
-        width: 500,
+        width: 510,
         height: 720,
         resizable: false,
         webPreferences: {

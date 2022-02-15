@@ -5,8 +5,9 @@ function createWindow () {
     var appname = path.basename(process.argv[0])
     var url = 'http://localhost:8000/'
     const mainWindow = new BrowserWindow({
-        width: 500,
+        width: 510,
         height: 750,
+        resizable: false,
         icon: __dirname + '/icons/wordle.icns',
         webPreferences: {
             nodeIntegration: false

@@ -61,7 +61,7 @@ Wiktionary, そして Kaggle の上記データをそのまま利用している
 Python backend サーバを動かし、そこに Web ブラウザでアクセスする。
 
 * `make http` もしくは `python -m backend`
-* Web ブラウザで [localhost:8000](http://localhost:8000) にアクセスする
+* その後に Web ブラウザで [localhost:8000](http://localhost:8000) にアクセスする
 
 ### 動かし方２
 
@@ -92,9 +92,27 @@ backend バイナリと共にすべてをひとつのバイナリ（インスト
 一般的なアプリのようにインストール・利用する。
 
 * `yarn build`
-* build ディレクトリの下に生成される Wordle-X.X.X.dmg をインストール・利用する
+* Wordle をインストールして利用
 
 （backend バイナリの動作に問題があり、まだ動かない）
+
+## インストール方法
+
+### プラットフォーム共通
+
+* `yarn build`
+
+### Mac OS
+
+* `dist` ディレクトリ下に生成される `Wordle-X.X.X.dmg` を開いてインストール
+
+（まだ動きません）
+
+### Linux (Ubuntu)
+
+* `dist` ディレクトリ下に生成される `Wordle_X.X.X_amd64.snap` に対して、`sudo snap install --daugerous Wordle_X.X.X_amd64.snap`
+
+（まだ動きません）
 
 ## ゲームのルール、やり方
 

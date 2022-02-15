@@ -37,7 +37,7 @@
         "linux": {
             "icon": "icons/wordle.icns",
             "target": [
-                "deb"
+                "snap"
             ]
         }
     },
