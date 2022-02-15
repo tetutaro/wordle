@@ -130,6 +130,5 @@ dmypy.json
 
 poetry.lock
 node_modules
-backend.spec
 backend_build
 backend_dist

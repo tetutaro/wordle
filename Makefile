@@ -34,7 +34,7 @@ words:
 
 .PHONY: http
 http:
-	python -m backend.backend
+	python -m backend
 
 .PHONY: browse
 browse:
@@ -42,8 +42,7 @@ browse:
 
 .PHONY: backend
 backend:
-	pyinstaller --distpath ./backend_dist --workpath ./backend_build --add-data backend/templates:templates --add-data backend/static:static --add-data scripts:scripts backend/backend.py
-	rm -f backend.spec
+	pyinstaller --distpath ./backend_dist --workpath ./backend_build backend.spec
 	rm -rf backend_build
 
 .PHONY: app

@@ -10,7 +10,8 @@ python = "^3.10,<3.11"
 beautifulsoup4 = "^4.10.0"
 numpy = "^1.22.2"
 pyinstaller = "^4.9"
-Flask = "^2.0.2"
+requests = "^2.27.1"
+Flask = "^2.0.3"
 pydantic = "^1.9.0"
 
 [tool.poetry.dev-dependencies]

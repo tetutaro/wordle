@@ -60,15 +60,15 @@ Wiktionary, そして Kaggle の上記データをそのまま利用している
 
 Python backend サーバを動かし、そこに Web ブラウザでアクセスする。
 
-* `make http` もしくは `python -m backend.backend`
+* `make http` もしくは `python -m backend`
 * Web ブラウザで [localhost:8000](http://localhost:8000) にアクセスする
 
 ### 動かし方２
 
 Python backend サーバを動かし、そこに Electron でアクセスする。
 
-* `make http` もしくは `python -m backend.backend`
-* `make browse` もしくは `./node_modules/.bin/electron browse.js`
+* `make http` もしくは `python -m backend`
+* その後に `make browse` もしくは `./node_modules/.bin/electron browse.js`
 
 ### 動かし方３
 
@@ -84,9 +84,7 @@ Electron を起動すると共に backend バイナリを動かし、
 Electron を閉じると共に backend バイナリも落とす。
 
 * `make backend`
-* その後に `yarn start`
-
-（backend バイナリが動き出すまでに時間がかかる）
+* その後に `make app` もしくは `yarn start`
 
 ### 動かし方５
 
@@ -96,7 +94,7 @@ backend バイナリと共にすべてをひとつのバイナリ（インスト
 * `yarn build`
 * build ディレクトリの下に生成される Wordle-X.X.X.dmg をインストール・利用する
 
-（backend バイナリの入れ方に問題があり、まだ動かない）
+（backend バイナリの動作に問題があり、まだ動かない）
 
 ## ゲームのルール、やり方
 
@@ -104,4 +102,4 @@ backend バイナリと共にすべてをひとつのバイナリ（インスト
 
 ## メモ
 
-* FastAPI は PyInstaller (make backend) に対応していないので、意図的に Flask を使っている
+* FastAPI (Uvicorn?) は PyInstaller でバッチ化した時に動かなかったので、意図的に Flask を使っている

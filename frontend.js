@@ -1,18 +1,33 @@
 "use strint";
-const {app, BrowserWindow} = require('electron');
-const path = require('path');
+const {app, BrowserWindow} = require("electron");
+const path = require("path");
+const reqp = require("request-promise-native");
 
 let mainWindow = null;
 let subpy = null;
 
-const BACKEND_EXE_FILE = path.join(__dirname, "backend_dist/backend");
+const url = 'http://localhost:8000/';
+/*
+ * if you use "backend_onefile.spec" in PyInstaller (make backend),
+ * BACKEND_EXE_FILE = path.join(
+ *  __dirname, "backend_dist/wordle_backend"
+ * );
+ */
+const BACKEND_EXE_FILE = path.join(
+    __dirname, "backend_dist/wordle_backend/wordle_backend"
+);
+
+function sleep(msec) {
+    var start = new Date().getTime();
+    while (new Date().getTime() < start + msec);
+}
 
 const startPythonSubprocess = () => {
     if (require("fs").existsSync(BACKEND_EXE_FILE)) {
         subpy = require("child_process").execFile(BACKEND_EXE_FILE, []);
     } else {
         subpy = require("child_process").spawn(
-            "python", ["-m", "backend.backend"]
+            "python", ["-m", "backend"]
         );
     }
 };
@@ -46,8 +61,9 @@ const killPythonSubprocesses = (main_pid) => {
     });
 };
 
+let sleep_count = 0;
+
 const createMainWindow = () => {
-    var url = 'http://localhost:8000/';
     mainWindow = new BrowserWindow({
         width: 500,
         height: 720,
@@ -62,13 +78,45 @@ const createMainWindow = () => {
         mainWindow = null;
     });
     mainWindow.webContents.on("did-fail-load", function() {
+        if (!require("fs").existsSync(BACKEND_EXE_FILE)) {
+            console.log('%s not exitst', BACKEND_EXE_FILE);
+        }
+        if (subpy == null) {
+            console.log('backend is not running. restart.');
+            startPythonSubprocess();
+        }
+        sleep_count += 1;
+        console.log('fail to access Wordle (%d)...', sleep_count);
+        sleep(1000);
         mainWindow.loadURL(url);
     });
 };
 
 app.on("ready", function () {
     startPythonSubprocess();
-    createMainWindow();
+    var startUp = function() {
+        reqp(url)
+            .then((html) => {
+                console.log("Let's Wordle");
+                createMainWindow();
+            })
+            .catch((err) => {
+                if (!require("fs").existsSync(BACKEND_EXE_FILE)) {
+                    console.log('%s not exitst', BACKEND_EXE_FILE);
+                }
+                if (subpy == null) {
+                    console.log('backend is not running. restart.');
+                    startPythonSubprocess();
+                }
+                sleep_count += 1;
+                console.log(
+                    'waiting for starting Wordle (%d)...', sleep_count
+                );
+                sleep(1000);
+                startUp();
+            });
+    };
+    startUp();
 });
 
 app.on('activate', function () {
