@@ -26,25 +26,21 @@ clean-test:
 .PHONY: environ
 environ:
 	pip install -r requirements.txt
-	yarn
 
 .PHONY: words
 words:
-	cd scripts && python ./create_words.py
+	cd wordle && python ./create_words.py
 
-.PHONY: http
-http:
-	python -m backend
+.PHONY: local
+local:
+	python -m wordle
 
-.PHONY: browse
-browse:
-	./node_modules/.bin/electron browse.js
+.PHONY: binary
+binary:
+	pyinstaller wordle.spec
+	rm -rf build
 
-.PHONY: backend
-backend:
-	pyinstaller --distpath ./backend_dist --workpath ./backend_build backend.spec
-	rm -rf backend_build
-
-.PHONY: app
-app:
-	yarn start
+.PHONY: binary-mac
+binary-mac:
+	pyinstaller wordle_mac.spec
+	rm -rf build

@@ -7,6 +7,7 @@ from enum import Enum
 import re
 import numpy as np
 from pydantic import BaseModel
+from wordle.words import words as raw_words
 
 FREQ_THRESHOLD = 0.0001
 
@@ -52,15 +53,10 @@ class Wordle():
     def _read_words(self: Wordle) -> None:
         words = list()
         freqs = list()
-        with open('scripts/words.csv', 'rt') as rf:
-            line = rf.readline()
-            while line:
-                word, freq = line.strip().split(',', 2)
-                freq = float(freq)
-                if FREQ_THRESHOLD is not None and freq >= FREQ_THRESHOLD:
-                    words.append(word)
-                    freqs.append(freq)
-                line = rf.readline()
+        for word, freq in raw_words:
+            if FREQ_THRESHOLD is not None and freq >= FREQ_THRESHOLD:
+                words.append(word)
+                freqs.append(freq)
         self.num_words = len(words)
         self.words = words
         self.weights = np.array(freqs)
@@ -138,8 +134,7 @@ class Wordle():
         else:
             self.info.status = WordleStatus.WRNG
             self.info.message = (
-                'You lose. answer='
-                f'<span class="answer">{self.answer.upper()}</span>'
+                f'You lose. "{self.answer.upper()}"'
             )
         return
 

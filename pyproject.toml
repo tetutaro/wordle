@@ -11,8 +11,8 @@ beautifulsoup4 = "^4.10.0"
 numpy = "^1.22.2"
 pyinstaller = "^4.9"
 requests = "^2.27.1"
-Flask = "^2.0.3"
 pydantic = "^1.9.0"
+tkmacosx = "^1.0.4"
 
 [tool.poetry.dev-dependencies]
 

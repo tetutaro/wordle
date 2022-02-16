@@ -1,4 +1,4 @@
-# wordle
+# Wordle (Tkinter version)
 
 5文字の英単語当てゲーム "Wordle" が面白かったので、
 自分で作ってみた。
@@ -13,9 +13,6 @@
     * `env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.10.2`
 * Python 仮想環境を作り、Python パッケージをインストールする
     * `pip install -r requirements.txt`
-* （無ければ）node, yarn をインストールする
-* Node JS パッケージをインストールする
-    * `yarn`
 
 ## 英単語リストの作成
 
@@ -27,17 +24,17 @@
 
 * [Kaggle](https://www.kaggle.com/) のアカウントが無ければ作る
 * Kaggle にログインし、[English Word Frequency](https://www.kaggle.com/rtatman/english-word-frequency) のデータをダウンロードする
-* ダウンロードしたファイル (archive.zip) を解凍し、生成された `unigram_freq.csv` を `scripts` ディレクトリの下に置く
+* ダウンロードしたファイル (archive.zip) を解凍し、生成された `unigram_freq.csv` を `wordle` ディレクトリの下に置く
 
 ### 英単語リスト作成スクリプト
 
-* `make words` もしくは `cd scripts && python ./create_words.py`
+* `make words` もしくは `cd wordle && python ./create_words.py`
 
 ### 何をしているのか
 
 * 最新の English Wiktionary のダンプをダウンロードし、そこから5文字の英単語（他の言語の単語や、大文字・記号等が入っているものは除外）を抽出する
 * 抽出した単語の出現回数を English Word Frequency のデータから取ってくる
-* `scripts/word.csv` として、5文字の単語と、最も出現回数の多い単語 (`about`) の出現回数を 1 としたときの、その単語の出現回数の割合のデータを作成する
+* `wordle/word.py` として、5文字の単語と、最も出現回数の多い単語 (`about`) の出現回数を 1 としたときの、その単語の出現回数の割合のデータを作成する
 
 ### なぜこんなことをしているのか
 
@@ -58,66 +55,21 @@ Wiktionary, そして Kaggle の上記データをそのまま利用している
 
 ### 動かし方１
 
-Python backend サーバを動かし、そこに Web ブラウザでアクセスする。
+ローカルでそのまま動かす。
 
-* `make http` もしくは `python -m backend`
-* その後に Web ブラウザで [localhost:8000](http://localhost:8000) にアクセスする
+* `make local` もしくは `python -m wordle`
 
 ### 動かし方２
 
-Python backend サーバを動かし、そこに Electron でアクセスする。
+バイナリ（アプリ）を作成して動かす。
 
-* `make http` もしくは `python -m backend`
-* その後に `make browse` もしくは `./node_modules/.bin/electron browse.js`
-
-### 動かし方３
-
-Electron を起動すると共に Python backend サーバを動かし、
-Electron を閉じると共に Python backend サーバも落とす。
-
-* `make app` もしくは `yarn start`
-
-### 動かし方４
-
-Python backend サーバをバイナリにし、
-Electron を起動すると共に backend バイナリを動かし、
-Electron を閉じると共に backend バイナリも落とす。
-
-* `make backend`
-* その後に `make app` もしくは `yarn start`
-
-### 動かし方５
-
-backend バイナリと共にすべてをひとつのバイナリ（インストーラ）にして、
-一般的なアプリのようにインストール・利用する。
-
-* `yarn build`
-* Wordle をインストールして利用
-
-（backend バイナリの動作に問題があり、まだ動かない）
-
-## インストール方法
-
-### プラットフォーム共通
-
-* `yarn build`
-
-### Mac OS
-
-* `dist` ディレクトリ下に生成される `Wordle-X.X.X.dmg` を開いてインストール
-
-（まだ動きません）
-
-### Linux (Ubuntu)
-
-* `dist` ディレクトリ下に生成される `Wordle_X.X.X_amd64.snap` に対して、`sudo snap install --daugerous Wordle_X.X.X_amd64.snap`
-
-（まだ動きません）
+* Mac OS の場合
+    * `make binary-mac`
+    * `dist` ディレクトリ下に作られる `Wordle.app` を動かす
+* Linux の場合
+    * `make binary`
+    * `dist` ディレクトリ下に作られる `Wordle` を動かす
 
 ## ゲームのルール、やり方
 
 本家と同じ。
-
-## メモ
-
-* FastAPI (Uvicorn?) は PyInstaller でバッチ化した時に動かなかったので、意図的に Flask を使っている

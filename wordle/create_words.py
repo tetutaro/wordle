@@ -145,11 +145,35 @@ class Wiktionary(object):
                         max_freq = freq
                     word_freq[word] = freq
                 line = rf.readline()
-        with open('words.csv', 'wt') as wf:
+        self.max_freq = max_freq
+        self.word_freq = word_freq
+        return
+
+    def write(self: Wiktionary) -> None:
+        with open('words.py', 'wt') as wf:
+            header = '''#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+
+words = [
+'''
+            tailer = ']\n'
+            wf.write(header)
             for word, freq in sorted(
-                word_freq.items(), key=lambda x: x[1], reverse=True
+                self.word_freq.items(),
+                key=lambda x: x[1],
+                reverse=True
             ):
-                wf.write(f'{word},{round(float(freq) / max_freq, 6):.6f}\n')
+                wf.write(
+                    '    ('
+                    f'"{word}", '
+                    f'{round(float(freq) / self.max_freq, 6):.6f}'
+                    '),\n'
+                )
+            wf.write(tailer)
+        return
+
+    def remove(self: Wiktionary) -> None:
+        os.remove(self.filename)
         return
 
 
@@ -166,6 +190,8 @@ def main() -> None:
     wiktionary.download()
     wiktionary.extract()
     wiktionary.freq()
+    wiktionary.write()
+    wiktionary.remove()
     return
 
 
