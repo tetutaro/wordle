@@ -9,7 +9,6 @@ a = Analysis(
     datas=[
         ('backend/templates', 'templates'),
         ('backend/static', 'static'),
-        ('scripts', 'scripts')
     ],
     hiddenimports=[],
     hookspath=[],

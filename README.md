@@ -1,4 +1,4 @@
-# wordle
+# Wordle (Electrion version)
 
 5文字の英単語当てゲーム "Wordle" が面白かったので、
 自分で作ってみた。
@@ -31,7 +31,7 @@
 
 ### 英単語リスト作成スクリプト
 
-* `make words` もしくは `cd scripts && python ./create_words.py`
+* `make words` もしくは `cd backend && python ./create_words.py`
 
 ### 何をしているのか
 
@@ -94,25 +94,15 @@ backend バイナリと共にすべてをひとつのバイナリ（インスト
 * `yarn build`
 * Wordle をインストールして利用
 
-（backend バイナリの動作に問題があり、まだ動かない）
-
 ## インストール方法
-
-### プラットフォーム共通
-
-* `yarn build`
 
 ### Mac OS
 
 * `dist` ディレクトリ下に生成される `Wordle-X.X.X.dmg` を開いてインストール
 
-（まだ動きません）
-
 ### Linux (Ubuntu)
 
 * `dist` ディレクトリ下に生成される `Wordle_X.X.X_amd64.snap` に対して、`sudo snap install --daugerous Wordle_X.X.X_amd64.snap`
-
-（まだ動きません）
 
 ## ゲームのルール、やり方
 

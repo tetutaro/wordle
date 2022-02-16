@@ -132,3 +132,4 @@ poetry.lock
 node_modules
 backend_build
 backend_dist
+wordle
