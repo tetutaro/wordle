@@ -30,7 +30,7 @@ environ:
 
 .PHONY: words
 words:
-	cd scripts && python ./create_words.py
+	cd backend && python ./create_words.py
 
 .PHONY: http
 http:
