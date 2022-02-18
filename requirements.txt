@@ -79,9 +79,9 @@ pydantic==1.9.0; python_full_version >= "3.6.1" \
     --hash=sha256:2cc6a4cb8a118ffec2ca5fcb47afbacb4f16d0ab8b7350ddea5e8ef7bcc53a16 \
     --hash=sha256:085ca1de245782e9b46cefcf99deecc67d418737a1fd3f6a4f511344b613a5b3 \
     --hash=sha256:742645059757a56ecd886faf4ed2441b9c0cd406079c2b4bee51bcc3fbcd510a
-pyinstaller-hooks-contrib==2022.1; python_version >= "3.7" and python_version < "3.11" \
-    --hash=sha256:f0a40fbe1842598a7066f785da5ac103ae2a86b4cebf478e530e1df57464814e \
-    --hash=sha256:37f0a16df336c69c8c7bf76105a6c4a53a270d648920fa21de654a6649e70404
+pyinstaller-hooks-contrib==2022.2; python_version >= "3.7" and python_version < "3.11" \
+    --hash=sha256:ab1d14fe053016fff7b0c6aea51d980bac6d02114b04063b46ef7dac70c70e1e \
+    --hash=sha256:7605e440ccb55904cb2a87d72e83642ef176fb7030c77e52ac4d9679bb3d1537
 pyinstaller==4.9; python_version >= "3.6" and python_version < "3.11" \
     --hash=sha256:e2f165cea4470ce8a8349112cd78f48a61413805adc17792a91997a11cfe1d80 \
     --hash=sha256:24035eb9fffa2e3e288b4c1c9710043819efc7203cae5c8c573bec16f4a8e98f \
